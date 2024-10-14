@@ -76,7 +76,10 @@ jobs:
           certificate-password: ${{ secrets.P12_PASSWORD }}
           provisioning-profile-base64: ${{ secrets.ICEFUSE_DEV_PROVISION }}
           keychain-password: ${{ secrets.P12_PASSWORD }}
-      
+
+      - name: Check build folder
+        run: ls build/ios/ipa
+
       #- name: Build iOS IPA
       #  run: flutter build ipa --export-options-plist ./dev-export-options.plist
       #  # run: flutter build ipa --no-codesign
