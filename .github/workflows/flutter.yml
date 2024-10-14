@@ -47,6 +47,12 @@ jobs:
       - name: Run tests
         run: flutter test
 
+       # Install the iOS development certificate (from secret)
+      - name: Install iOS certificate
+        run: |
+          echo ${{ secrets.IOS_DEV_CERTIFICATE }} | base64 --decode > ios_dev_certificate.p12
+          security import ios_dev_certificate.p12 -P "${{ secrets.P12_PASSWORD }}" -T /usr/bin/codesign
+
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
       #   run: flutter build apk --release
