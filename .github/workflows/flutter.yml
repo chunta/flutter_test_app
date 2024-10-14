@@ -18,7 +18,7 @@ jobs:
 
       # Set up Flutter (use the latest stable version)
       - name: Set up Flutter
-        uses: subosito/flutter-action@v4
+        uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
           flutter-version: '3.19.0'  # You can specify a version like '3.10.5' if needed
