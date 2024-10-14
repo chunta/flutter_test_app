@@ -17,10 +17,11 @@ jobs:
 
       # Set up Flutter (use the latest stable version)
       - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v4
         with:
-          flutter-version: 'stable'  # You can specify a version like '3.10.5' if needed
-
+          channel: 'stable'
+          flutter-version: '3.19.0'  # You can specify a version like '3.10.5' if needed
+      
       # Install dependencies
       - name: Install dependencies
         run: flutter pub get
