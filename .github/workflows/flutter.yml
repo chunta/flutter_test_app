@@ -16,6 +16,8 @@ jobs:
         run: |
           echo "Secret is available: ${{ secrets.IOS_DEV_CERTIFICATE }}"
           echo "P12 Password: ${{ secrets.P12_PASSWORD }}"
+          echo "ProvisionProfile: ${{ secrets.ICEFUSE_DEV_PROVISION}}"
+          echo "[Dev] ExportOptionList: ${{ secrets.DEV_EXPORT_OPTIONLIST}}"
 
       # Checkout the repository
       - name: Checkout repository
