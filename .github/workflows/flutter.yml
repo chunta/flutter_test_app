@@ -59,6 +59,17 @@ jobs:
           echo "${{ secrets.DEV_EXPORT_OPTIONLIST }}" | base64 --decode > dev-export-options.plist
           cat dev-export-options.plist
 
+     # Build the IPA for iOS
+      - name: Build iOS IPA
+        run: flutter build ipa --export-options-plist ./dev-export-options.plist
+
+     # Upload IPA as part of the CI/CD process
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release.ipa
+          path: build/ios/ipa/app.ipa
+
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
       #   run: flutter build apk --release
