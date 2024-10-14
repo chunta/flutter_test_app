@@ -71,14 +71,14 @@ jobs:
       - name: Build iOS IPA
         run: flutter build ipa --no-codesign
 
-     # run: flutter build ipa --export-options-plist ./dev-export-options.plist
+      # run: flutter build ipa --export-options-plist ./dev-export-options.plist
 
-     # Upload IPA as part of the CI/CD process
-     # - name: Upload IPA
-     #   uses: actions/upload-artifact@v3
-     #   with:
-     #     name: app-release.ipa
-     #     path: build/ios/ipa/app.ipa
+      # Upload IPA as part of the CI/CD process
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release.ipa
+          path: build/ios/ipa/app.ipa
 
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
