@@ -66,12 +66,12 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           UUID=$(security cms -D -i provisioning_profile.mobileprovision | plutil -extract UUID xml1 -o - - | grep -o '<string>.*</string>' | sed -e 's/<[^>]*>//g')
           cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+      
+      # Build the IPA for iOS
+      - name: Build iOS IPA
+        run: flutter build ipa --no-codesign
 
-     # Build the IPA for iOS
-     - name: Build iOS IPA
-       run: flutter build ipa --no-codesign
-
-     #run: flutter build ipa --export-options-plist ./dev-export-options.plist
+     # run: flutter build ipa --export-options-plist ./dev-export-options.plist
 
      # Upload IPA as part of the CI/CD process
      # - name: Upload IPA
