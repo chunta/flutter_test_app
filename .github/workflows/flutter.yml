@@ -12,6 +12,11 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - name: Verify secret existence
+        run: |
+          echo "Secret is available: ${{ secrets.IOS_DEV_CERTIFICATE }}"
+          echo "P12 Password: ${{ secrets.P12_PASSWORD }}"
+
       # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
