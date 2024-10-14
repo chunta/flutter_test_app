@@ -1,0 +1,53 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "master" ]  # Trigger the workflow on pushes to the main branch
+  pull_request:
+    branches: [ "master" ]  # Trigger the workflow on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Set up Flutter (use the latest stable version)
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'  # You can specify a version like '3.10.5' if needed
+
+      # Install dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Analyze the project (ensure Dart code quality)
+      - name: Analyze code
+        run: flutter analyze
+
+      # Format the code (you can enforce code style on commits)
+      # Uncomment this if you want to enforce formatting on each commit
+      # - name: Verify code formatting
+      #   run: flutter format --set-exit-if-changed .
+
+      # Run tests (make sure to have tests in the test/ directory)
+      - name: Run tests
+        run: flutter test
+
+      # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
+      # - name: Build APK
+      #   run: flutter build apk --release
+
+      # - name: Build iOS
+      #   run: flutter build ios --no-codesign
+
+      # (Optional) Upload APK or build artifacts as part of the CI/CD process
+      # - name: Upload APK
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: app-release.apk
+      #     path: build/app/outputs/flutter-apk/app-release.apk
