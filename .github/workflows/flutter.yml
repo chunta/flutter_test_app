@@ -59,6 +59,14 @@ jobs:
           echo "${{ secrets.DEV_EXPORT_OPTIONLIST }}" | base64 --decode > dev-export-options.plist
           cat dev-export-options.plist
 
+      # Install the provisioning profile (from secret)
+      - name: Install Provisioning Profile
+        run: |
+          echo ${{ secrets.ICEFUSE_DEV_PROVISION }} | base64 --decode > provisioning_profile.mobileprovision
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          UUID=$(security cms -D -i provisioning_profile.mobileprovision | plutil -extract UUID xml1 -o - - | grep -o '<string>.*</string>' | sed -e 's/<[^>]*>//g')
+          cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+
      # Build the IPA for iOS
       - name: Build iOS IPA
         run: flutter build ipa --export-options-plist ./dev-export-options.plist
