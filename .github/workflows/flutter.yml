@@ -69,9 +69,8 @@ jobs:
       
       # Build the IPA for iOS
       - name: Build iOS IPA
-        run: flutter build ipa --no-codesign
-
-      # run: flutter build ipa --export-options-plist ./dev-export-options.plist
+        run: flutter build ipa --export-options-plist ./dev-export-options.plist
+        # run: flutter build ipa --no-codesign
 
       # Upload IPA as part of the CI/CD process
       - name: Upload IPA
