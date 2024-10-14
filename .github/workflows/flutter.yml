@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: app-release.ipa
-          path: build/ios/ipa/app.ipa
+          path: build/ios/ipa/flutter_test_app.ipa
 
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
