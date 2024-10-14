@@ -68,15 +68,17 @@ jobs:
           cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
 
      # Build the IPA for iOS
-      - name: Build iOS IPA
-        run: flutter build ipa --export-options-plist ./dev-export-options.plist
+     - name: Build iOS IPA
+       run: flutter build ipa --no-codesign
+
+     #run: flutter build ipa --export-options-plist ./dev-export-options.plist
 
      # Upload IPA as part of the CI/CD process
-      - name: Upload IPA
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-release.ipa
-          path: build/ios/ipa/app.ipa
+     # - name: Upload IPA
+     #   uses: actions/upload-artifact@v3
+     #   with:
+     #     name: app-release.ipa
+     #     path: build/ios/ipa/app.ipa
 
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
