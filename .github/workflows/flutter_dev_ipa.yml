@@ -91,6 +91,15 @@ jobs:
           name: app-release.ipa
           path: build/ios/ipa/flutter_test_app.ipa
 
+      # Slack
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload-delimiter: "_"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
       #   run: flutter build apk --release
