@@ -80,8 +80,14 @@ jobs:
       - name: Check build folder
         run: ls build/ios/ipa
 
+      - name: Upload IPA
+        id: artifact-upload-step
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.ipa
+          path: build/ios/ipa/flutter_test_app.ipa
+
   release:
-    name: Download and upload to Firebase
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:
