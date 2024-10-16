@@ -71,7 +71,7 @@ jobs:
       - name: Add build number
         run: |
           filename="pubspec.yaml"
-          awk '/version:/ {sub(/\+[0-9]+/, "+${{ env.BUILD_NUMBER }}")} {print}' $filename > tmpfile && mv tmpfile $filename
+          awk '/version:/ {sub(/\+[0-9]+/, "+${{ github.run_number }}")} {print}' $filename > tmpfile && mv tmpfile $filename
 
       # Build the IPA for iOS
       - uses: cedvdb/action-flutter-build-ios@v1
