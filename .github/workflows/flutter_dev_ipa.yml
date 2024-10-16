@@ -87,32 +87,39 @@ jobs:
           name: app-release.ipa
           path: build/ios/ipa/flutter_test_app.ipa
 
-      - name: Try download-artiface@4
+      - name: Download-artiface@4
         uses: actions/download-artifact@v4
         with:
-          name: app-release.ipa
-          run: ls -R
+          name: release-ipa
   
-      - name: Output artifact ID
-        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+      #- name: Output artifact ID
+      #  run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
       
-      - name: List Root Folder 
-        run: ls -la $(pwd)/build/ios/ipa
+      #- name: List Root Folder 
+      #  run: ls -la $(pwd)/build/ios/ipa
 
-      - name: Set artifact download URL
-        id: artifact_url
-        run: echo "ARTIFACT_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
-
-      - name: Send GitHub Action trigger data to Slack workflow
-        id: slack
-        uses: slackapi/slack-github-action@v1.27.0
+      - name: Upload artiface to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          payload: |
-            {
-              "text": "Download the IPA here: ${{ env.ARTIFACT_URL }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+          serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
+          groups: MyTesters
+          file: the_flutter.ipa
+  
+      #- name: Set artifact download URL
+      #  id: artifact_url
+      #  run: echo "ARTIFACT_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
+
+      #- name: Send GitHub Action trigger data to Slack workflow
+      #  id: slack
+      #  uses: slackapi/slack-github-action@v1.27.0
+      #  with:
+      #    payload: |
+      #      {
+      #        "text": "Download the IPA here: ${{ env.ARTIFACT_URL }}"
+      #      }
+      #  env:
+      #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
