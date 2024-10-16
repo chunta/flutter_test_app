@@ -113,16 +113,16 @@ jobs:
       #  id: artifact_url
       #  run: echo "ARTIFACT_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
 
-      #- name: Send GitHub Action trigger data to Slack workflow
-      #  id: slack
-      #  uses: slackapi/slack-github-action@v1.27.0
-      #  with:
-      #    payload: |
-      #      {
-      #        "text": "Download the IPA here: ${{ env.ARTIFACT_URL }}"
-      #      }
-      #  env:
-      #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.27.0
+        with:
+          payload: |
+            {
+              "text": "Download the IPA here: ${{ steps.download-artifact-step.outputs.download-path }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
       # - name: Build APK
