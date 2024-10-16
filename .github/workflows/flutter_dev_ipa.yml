@@ -102,7 +102,7 @@ jobs:
           appId: ${{secrets.FIREBASE_IOS_APP_ID}}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: MyTesters
-          file: the_flutter.ipa
+          file: app-release.ipa
   
       #- name: Set artifact download URL
       #  id: artifact_url
