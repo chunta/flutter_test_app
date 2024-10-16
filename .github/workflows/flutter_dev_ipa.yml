@@ -66,7 +66,13 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           UUID=$(security cms -D -i provisioning_profile.mobileprovision | plutil -extract UUID xml1 -o - - | grep -o '<string>.*</string>' | sed -e 's/<[^>]*>//g')
           cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
-      
+
+      # Increment build number with current GitHub Action build number
+      - name: Add build number
+        run: |
+          filename="pubspec.yaml"
+          awk -v build_number="${{ env.BUILD_NUMBER }}" '/version:/ {sub(/\+[0-9]+/, "+"build_number)} {print}' $filename > tmpfile && mv tmpfile $filename
+
       # Build the IPA for iOS
       - uses: cedvdb/action-flutter-build-ios@v1
         with:
