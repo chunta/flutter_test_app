@@ -70,7 +70,8 @@ jobs:
       # Increment build number with current gitaction build number
       - name: Echo build number
         run: |
-          echo ${{ env.BUILD_NUMBER }}
+          echo ${{ github.run_number }} 
+          echo ${{ github.run_id }}
 
       # Build the IPA for iOS
       - uses: cedvdb/action-flutter-build-ios@v1
