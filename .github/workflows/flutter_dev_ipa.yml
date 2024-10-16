@@ -80,13 +80,6 @@ jobs:
       - name: Check build folder
         run: ls build/ios/ipa
 
-      - name: Upload IPA
-        id: artifact-upload-step
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release.ipa
-          path: build/ios/ipa/flutter_test_app.ipa
-
   release:
     name: Download and upload to Firebase
     needs: [ build ]
@@ -96,12 +89,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: app-release.ipa
-  
-      #- name: Output artifact ID
-      #  run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
-      
-      #- name: List Root Folder 
-      #  run: ls -la $(pwd)/build/ios/ipa
 
       - name: Upload artiface to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
