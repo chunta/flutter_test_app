@@ -80,25 +80,36 @@ jobs:
       - name: Check build folder
         run: ls build/ios/ipa
 
-      #- name: Build iOS IPA
-      #  run: flutter build ipa --export-options-plist ./dev-export-options.plist
-      #  # run: flutter build ipa --no-codesign
-
-      # Upload IPA as part of the CI/CD process
       - name: Upload IPA
-        uses: actions/upload-artifact@v3
+        id: artifact-upload-step
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.ipa
           path: build/ios/ipa/flutter_test_app.ipa
 
-      # Slack
+      - name: Try download-artiface@4
+        uses: actions/download-artifact@v4
+        with:
+          name: app-release.ipa
+          run: ls -R
+  
+      - name: Output artifact ID
+        run:  echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+      
+      - name: List Root Folder 
+        run: ls -la $(pwd)/build/ios/ipa
+
+      - name: Set artifact download URL
+        id: artifact_url
+        run: echo "ARTIFACT_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
+
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
         uses: slackapi/slack-github-action@v1.27.0
         with:
           payload: |
             {
-              "text": "value"
+              "text": "Download the IPA here: ${{ env.ARTIFACT_URL }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
