@@ -101,6 +101,7 @@ jobs:
         run: echo "${{ steps.download-artifact-step.outputs.download-path }}"
 
       - name: Upload artiface to Firebase App Distribution
+        id: firebase-distribution-step
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
@@ -108,10 +109,6 @@ jobs:
           groups: MyTesters
           file: flutter_test_app.ipa
           releaseNotes: ${{ github.event.head_commit.message }}
-  
-      #- name: Set artifact download URL
-      #  id: artifact_url
-      #  run: echo "ARTIFACT_URL=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }}" >> $GITHUB_ENV
 
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
@@ -119,21 +116,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "Download the IPA here: ${{ steps.download-artifact-step.outputs.download-path }}"
+              "text": "Download the IPA here: ${{ steps.firebase-distribution-step.outputs.BINARY_DOWNLOAD_URI }}"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      # Build the APK (for Android) or iOS app (uncomment for production CI/CD)
-      # - name: Build APK
-      #   run: flutter build apk --release
-
-      # - name: Build iOS
-      #   run: flutter build ios --no-codesign
-
-      # (Optional) Upload APK or build artifacts as part of the CI/CD process
-      # - name: Upload APK
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: app-release.apk
-      #     path: build/app/outputs/flutter-apk/app-release.apk
