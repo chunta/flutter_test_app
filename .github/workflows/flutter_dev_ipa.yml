@@ -16,8 +16,8 @@ jobs:
         run: |
           echo "Secret is available: ${{ secrets.IOS_DEV_CERTIFICATE }}"
           echo "P12 Password: ${{ secrets.P12_PASSWORD }}"
-          echo "ProvisionProfile: ${{ secrets.ICEFUSE_DEV_PROVISION}}"
-          echo "[Dev] ExportOptionList: ${{ secrets.DEV_EXPORT_OPTIONLIST}}"
+          echo "ProvisionProfile: ${{ secrets.ICEFUSE_DEV_PROVISION }}"
+          echo "[Dev] ExportOptionList: ${{ secrets.DEV_EXPORT_OPTIONLIST }}"
 
       # Checkout the repository
       - name: Checkout repository
@@ -99,10 +99,11 @@ jobs:
       - name: Upload artiface to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
-          appId: ${{secrets.FIREBASE_IOS_APP_ID}}
+          appId: ${{ secrets.FIREBASE_IOS_APP_ID }}
           serviceCredentialsFileContent: ${{ secrets.CREDENTIAL_FILE_CONTENT }}
           groups: MyTesters
           file: app-release.ipa
+          releaseNotes: SomeChange
   
       #- name: Set artifact download URL
       #  id: artifact_url
