@@ -68,10 +68,9 @@ jobs:
           cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
       
       # Increment build number with current gitaction build number
-      - name: Add build number
+      - name: Echo build number
         run: |
-          filename="pubspec.yaml"
-          awk '/version:/ {sub(/\+[0-9]+/, "+${{ env.BUILD_NUMBER }}")} {print}' $filename > tmpfile && mv tmpfile $filename
+          echo ${{ env.BUILD_NUMBER }}
 
       # Build the IPA for iOS
       - uses: cedvdb/action-flutter-build-ios@v1
